@@ -1,6 +1,6 @@
 # Express Local Library 
 
-This website was created followed the [Express web framework guide](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs) provided by Mozilla.
+This website was created following the [Express web framework guide](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs) provided by Mozilla.
 
 ## Database schema
 
