@@ -7,10 +7,11 @@ var author_controller = require('../controllers/authorController');
 var genre_controller = require('../controllers/genreController');
 var book_instance_controller = require('../controllers/bookInstanceController');
 
-// BOOK ROUTES //
-
 // GET catalog home page
 router.get('/', book_controller.index);
+
+
+// BOOK ROUTES //
 
 // GET request for creating a Book. NOTE this must come before routes that display Book using ID.
 router.get('/book/create', book_controller.book_create_get);
@@ -35,6 +36,7 @@ router.get('/books', book_controller.book_list)
 
 // GET request for one Book
 router.get('/book/:id', book_controller.book_detail);
+
 
 // AUTHOR ROUTES //
 
