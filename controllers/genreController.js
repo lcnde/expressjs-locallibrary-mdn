@@ -1,6 +1,7 @@
 var Genre = require('../models/genre');
 var Book = require('../models/book');
 var async = require('async');
+const { body,validationResult } = require("express-validator");
 
 // display list of all genres
 const genre_list = (req, res) => {
@@ -42,13 +43,53 @@ const genre_detail = (req, res, next) => {
 
 // display genre create form on GET
 const genre_create_get = (req, res) => {
-  res.send('NOT IMPLEMENTED: genre create GET');
+  res.render('genre_form', { title: 'Create Genre' });
 };
 
 // handle genre create on POST
-const genre_create_post = (req, res) => {
-  res.send('NOT IMPLEMENTED: genre create POST');
-};
+const genre_create_post = [
+  
+  //validate and sanitize the name field
+  body('name', 'Genre name required').trim().isLength({ min: 1 }).escape(),
+
+  // process request after validation and sanitization
+  (req, res, next) => {
+
+    // extract the validation errors from a request
+    const errors = validationResult(req);
+
+    // create a genre object with escaped and trimmed data
+    var genre = new Genre(
+      { name: req.body.name }
+    );
+
+    if (!errors.isEmpty()) {
+      // there are errors. render the form again with sanitized values/error messages.
+      res.render('genre_form', { title: 'Create Genre', genre: genre, errors: errors.array() });
+      return;
+    }
+    else {
+      //data from form is valid
+      //check if Genre with the same name already exists
+      Genre.findOne({ 'name': req.body.name })
+        .exec( function(err, found_genre) {
+          if (err) { return next(err); }
+
+          if (found_genre) {
+            // genre exists, redirect to its detail page
+            res.redirect(found_genre.url);
+          }
+          else {
+            genre.save(function (err) {
+              if (err) { return next(err); }
+              //genre saved, redirect to genre detail page
+              res.redirect(genre.url);
+            });
+          };
+        });
+    };
+  }
+];
 
 // display genre delete form on GET
 const genre_delete_get = (req, res) => {
