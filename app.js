@@ -1,13 +1,17 @@
 const createError = require('http-errors');
+const dotenv = require('dotenv');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+dotenv.config();
+console.log(process.env.DBPASSWORD)
+
 // set up mongoose connection
 const mongoose = require('mongoose');
 
-const mongoDB = 'mongodb+srv://admin:admin@cluster0.omje9.mongodb.net/local_library?retryWrites=true&w=majority';
+const mongoDB = `mongodb+srv://admin:${process.env.DBPASSWORD}@cluster0.omje9.mongodb.net/local_library?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useUnifiedTopology: true });
 const db = mongoose.connection;
 // eslint-disable-next-line no-console
