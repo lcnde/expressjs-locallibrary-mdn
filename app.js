@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 dotenv.config();
-console.log(process.env.DBPASSWORD)
 
 // set up mongoose connection
 const mongoose = require('mongoose');
